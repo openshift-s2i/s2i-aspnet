@@ -11,8 +11,7 @@ the official
 https://docs.openshift.org/latest/using_images/s2i_images/php.html[OpenShift
 Documentation].
 
-[[versions]]
-== Versions
+# Versions
 
 Go versions currently supported are:
 
@@ -22,8 +21,7 @@ The following operating system base images are supported:
 
 * We are using the official docker image from Microsoft as the base
 
-[[installation]]
-== Installation
+# Installation
 
 To build a ASP.NET builder image, execute:
 
@@ -32,8 +30,7 @@ $ git clone https://github.com/openshift-s2i/s2i-go.git
 $ cd s2i-go
 -------------------------------------------------------
 
-[[usage]]
-== Usage
+# Usage
 
 There are several sample Go applications included with this repository.  To
 build a simple Go test application using the standalone
