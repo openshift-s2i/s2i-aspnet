@@ -1,0 +1,14 @@
+#!/bin/bash -e
+cat <<EOF
+This is the ASP.NET S2I image:
+To use it, install S2I: https://github.com/openshift/source-to-image
+
+Sample invocation:
+
+s2i build source/ myapp aspnet-app
+
+You can then run the resulting image via:
+docker run -d -p 5000:5000 aspnet-app
+and see the test via http://localhost:5000
+EOF
+
