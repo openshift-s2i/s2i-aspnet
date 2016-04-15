@@ -24,8 +24,9 @@ The following operating system base images are supported:
 To build a ASP.NET builder image, execute:
 
 ```
-$ git clone https://github.com/openshift-s2i/s2i-go.git
-$ cd s2i-go
+$ git clone https://github.com/openshift-s2i/s2i-aspnet.git
+$ cd s2i-aspnet
+$ docker build -t aspapp .
 ```
 
 # Usage
@@ -34,14 +35,13 @@ There are several sample Go applications included with this repository.  To
 build a simple Go test application using the standalone
 
 ```
-$ s2i build https://github.com/openshift-s2i/s2i-go.git \
-    --context-dir=1.4/test/test-app openshift/go-14-centos7 go-test-app
+$ s2i build source/ aspapp aspnet-app --loglevel=5
 ```
 
 The resulting image can be executed using docker:
 
 ```
-$ docker run --rm -p 5000:5000 go-test-app
+$ docker run -t -p 5000:5000 aspnet-app
 ```
 
 Once the container is running, it should be accessible using:
