@@ -89,3 +89,20 @@ Once the container is running, it should be accessible using:
 $ curl 127.0.0.1:5000
 ```
 
+# Openshift Usage
+
+create the s2i builder image, dont need service or deployment
+
+    oc new-project aspnet --display-name="ASP.NET s2i" --description='ASP.NET s2i'
+    oc new-app https://github.com/eformat/s2i-aspnet --name=aspapp --strategy=docker
+    oc delete svc aspapp
+    oc delete dc aspapp
+
+s2i needs access to docker dameon, so as the cluster amdin
+
+    oadm policy add-scc-to-user privileged system:serviceaccount:aspnet:builder
+
+and now build the application
+
+    oc new-app --image-stream=aspnet/aspapp --code=https://github.com/eformat/s2i-aspnet --context-dir=source --name=aspnet-app --strategy=source
+    oc expose svc/aspnet-app --hostname=microsoft-loves-linux.apps.hpteams.com
