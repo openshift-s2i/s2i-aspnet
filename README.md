@@ -2,20 +2,18 @@
  Red Hat OpenShift Source-to-Image template for ASP.NET applications
 
 This repository contains the source for creating a
-https://github.com/openshift/source-to-image[source-to-image] builder image,
+source-to-image (https://github.com/openshift/source-to-image) builder image,
 which be used to create reproducible Docker images from your ASP.NET project's
-source code.  The resulting image can be run using https://docker.com[Docker].
+source code.  The resulting image can be run using Docker.
 
 For more information about using these images with OpenShift, please see
-the official
-https://docs.openshift.org/latest/using_images/s2i_images/php.html[OpenShift
-Documentation].
+the official OpenShift Documentation (https://docs.openshift.org/latest/using_images/s2i_images/php.html) .
 
 # Versions
 
 Go versions currently supported are:
 
-* ASP.NET 7
+* ASP.NET 5
 
 The following operating system base images are supported:
 
@@ -40,7 +38,7 @@ $ s2i build https://github.com/openshift-s2i/s2i-go.git \
     --context-dir=1.4/test/test-app openshift/go-14-centos7 go-test-app
 ```
 
-The resulting image can be executed using https://docker.com[docker]:
+The resulting image can be executed using docker:
 
 ```
 $ docker run --rm -p 5000:5000 go-test-app
