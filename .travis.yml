@@ -12,3 +12,4 @@ before_install:
 
 script:
   - docker build -t aspapp .
+  - s2i build source/ aspapp aspnet-app --loglevel=5
