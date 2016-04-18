@@ -13,7 +13,7 @@ High level process
 3. Run the new OpenShift ASP.NET base image
 
 For more information about using these images with OpenShift, please see
-the official OpenShift Documentation (https://docs.openshift.org/latest/using_images/s2i_images/php.html) .
+the official OpenShift Documentation (https://docs.openshift.com/enterprise/3.1/creating_images/s2i.html) .
 
 # Versions
 
@@ -23,7 +23,45 @@ ASP.NET versions currently supported are:
 
 We are using the official docker image from Microsoft as the base (http://docs.asp.net/en/latest/getting-started/installing-on-linux.html#id9)
 
-# Installation
+# Demo Application
+
+A sample ASP.NET application was generated using Yeoman (http://docs.asp.net/en/latest/client-side/yeoman.html) and moved the source code into a folder called "source" to provide an example of an application that was built using the builder
+
+# Building and Running 
+
+The builder and demo application can be built and run either in standalone or within OpenShift
+
+# OpenShift
+
+Use the following steps to builder the builder image and then execute a S2I build of the application.
+
+Login to OpenShift using the Command Line Interface (CLI) tools and create a new project (in this example, we created a project called "dot-net")
+
+```
+oc new-project dot-net
+```
+
+Start a new build of the S2I builder
+
+oc new-build https://github.com/sabre1041/s2i-aspnet#ose-support
+	
+Use `oc get builds` to track the status of the build.
+
+Once the build has completed, create a new application
+
+```
+oc new-app s2i-aspnet~https://github.com/openshift-s2i/s2i-aspnet --context-dir=source --name=aspnet-app
+```
+
+Create a new route so that the application is accessible outside the OpenShift environment
+
+```
+oc expose service aspnet-app
+```
+
+The application will now be available at http://aspnet-app-dot-net.&lt;default_subdomain&gt;
+
+# Standalone
 
 To build a ASP.NET builder image, execute:
 
@@ -33,9 +71,7 @@ $ cd s2i-aspnet
 $ docker build -t aspapp .
 ```
 
-# Usage
-
-We generated a sample ASP.NET application using Yeoman (http://docs.asp.net/en/latest/client-side/yeoman.html) and moved the source code into a folder called "source".   To build with your own project, just replace the contents in the folder "source" and execute the s2i tool. 
+With the builder image now available, execute the s2i tool to build a new image of the application:
 
 ```
 $ s2i build source/ aspapp aspnet-app --loglevel=5
@@ -53,4 +89,3 @@ Once the container is running, it should be accessible using:
 $ curl 127.0.0.1:5000
 ```
 
-Personally, I use a Mac to generate my code and docker image so I just open a browser to http://192.168.99.100:5000/`

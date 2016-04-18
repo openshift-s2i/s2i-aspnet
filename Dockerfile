@@ -2,7 +2,9 @@ FROM microsoft/aspnet
 
 MAINTAINER Albert Wong <albert@redhat.com>
 
-ENV ASPNET_VERSION=5.0
+ENV \ 
+    ASPNET_VERSION=5.0 \
+    HOME=/opt/app-root/src
 
 # Set the labels that are used for Openshift to describe the builder image.
 LABEL io.k8s.description="ASP.NET 5.0" \
@@ -13,8 +15,12 @@ LABEL io.k8s.description="ASP.NET 5.0" \
     # (run, assemble, save-artifacts)
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
-RUN printf "deb http://ftp.us.debian.org/debian jessie main\n" >> /etc/apt/sources.list
-RUN apt-get -qq update && apt-get install -qqy sqlite3 libsqlite3-dev && rm -rf /var/lib/apt/lists/*
+RUN printf "deb http://ftp.us.debian.org/debian jessie main\n" >> /etc/apt/sources.list && \
+    apt-get -qq update && apt-get install -qqy sqlite3 libsqlite3-dev && rm -rf /var/lib/apt/lists/* && \
+    mkdir -p ${HOME} && \
+    chown -R 1001:0 ${HOME}/ && \
+    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default && \
+    chown -R 1001:0 /opt/app-root
 
 #COPY . /app
 #WORKDIR /app
@@ -25,6 +31,8 @@ EXPOSE 5000/tcp
 
 # Copy the S2I scripts to /usr/libexec/s2i since we set the label that way
 COPY  ["s2i/run", "s2i/assemble", "s2i/save-artifacts", "s2i/usage", "/usr/libexec/s2i/"]
+
+USER 1001
 
 # Modify the usage script in your application dir to inform the user how to run
 # this image.
