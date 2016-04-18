@@ -1,5 +1,7 @@
 # s2i-aspnet
- Red Hat OpenShift Source-to-Image template for ASP.NET applications
+![Travis CI](https://travis-ci.org/openshift-s2i/s2i-aspnet.svg?branch=master)
+
+Red Hat OpenShift Source-to-Image template for ASP.NET applications
 
 This repository contains the source for creating a
 source-to-image (https://github.com/openshift/source-to-image) builder image,
@@ -10,7 +12,7 @@ High level process
 
 1. Create the OpenShift ASP.NET base image (creates docker image 'aspapp')
 2. Merge source code using the S2I tool into the OpenShift image (creates docker image 'aspnet-app')
-3. Run the new OpenShift ASP.NET base image
+3. Run the new OpenShift ASP.NET base+code image
 
 For more information about using these images with OpenShift, please see
 the official OpenShift Documentation (https://docs.openshift.com/enterprise/3.1/creating_images/s2i.html) .
