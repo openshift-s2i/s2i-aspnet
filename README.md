@@ -37,7 +37,13 @@ The builder and demo application can be built and run either in standalone or wi
 
 Use the following steps to builder the builder image and then execute a S2I build of the application.
 
-Login to OpenShift using the Command Line Interface (CLI) tools and create a new project (in this example, we created a project called "dot-net")
+Login to OpenShift using the Command Line Interface (CLI) tools
+
+    oc login -u <user> <openshift_server>
+
+Enter the password at the prompt
+
+Create a new project (in this example, we created a project called "dot-net")
 
 ```
 oc new-project dot-net
@@ -45,7 +51,7 @@ oc new-project dot-net
 
 Start a new build of the S2I builder
 
-oc new-build https://github.com/sabre1041/s2i-aspnet#ose-support
+    oc new-build https://github.com/openshift-s2i/s2i-aspnet
 	
 Use `oc get builds` to track the status of the build.
 
@@ -90,21 +96,3 @@ Once the container is running, it should be accessible using:
 ```
 $ curl 127.0.0.1:5000
 ```
-
-# Openshift Usage
-
-create the s2i builder image, dont need service or deployment
-
-    oc new-project aspnet --display-name="ASP.NET s2i" --description='ASP.NET s2i'
-    oc new-app https://github.com/eformat/s2i-aspnet --name=aspapp --strategy=docker
-    oc delete svc aspapp
-    oc delete dc aspapp
-
-s2i needs access to docker dameon, so as the cluster amdin
-
-    oadm policy add-scc-to-user privileged system:serviceaccount:aspnet:builder
-
-and now build the application
-
-    oc new-app --image-stream=aspnet/aspapp --code=https://github.com/eformat/s2i-aspnet --context-dir=source --name=aspnet-app --strategy=source
-    oc expose svc/aspnet-app --hostname=microsoft-loves-linux.apps.hpteams.com
