@@ -35,7 +35,9 @@ The builder and demo application can be built and run either in standalone or wi
 
 # OpenShift
 
-Use the following steps to builder the builder image and then execute a S2I build of the application.
+## Build the S2I builder and build and deploy a sample application
+
+Use the following steps to build the builder image and then execute a S2I build of the application.
 
 Login to OpenShift using the Command Line Interface (CLI) tools
 
@@ -68,6 +70,48 @@ oc expose service aspnet-app
 ```
 
 The application will now be available at http://aspnet-app-dot-net.&lt;default_subdomain&gt;
+
+## Use a template to build and deploy a sample application
+
+A template has been provided to simplify the build and deployment of a asp .NET application on OpenShift. Instead of first building the S2I builder, the template will use an image that was built by and hosted on [Docker Hub](https://hub.docker.com/r/sabre1041/s2i-aspnet/). The template is located in the `templates` folder in a file called [aspnet-s2i-template.json](templates/aspnet-s2i-template.json).
+
+First, login to OpenShift using the Command Line Interface (CLI) tools
+
+    oc login -u <user> <openshift_server>
+
+Create a new project (in this example, we created a project called "dot-net-template")
+
+```
+oc new-project dot-net-template
+```
+
+Add the template to the project
+
+```
+oc create -f templates/aspnet-s2i-template.json
+```
+
+Alternately, the template can be added to the `openshift` project so that it will be visible by all users. Using a user with permissions to modify resources in the `openshift` project, execute the following command:
+
+```
+oc create -f templates/aspnet-s2i-template.json -n openshift
+```
+
+Instantiate the template to build and deploy the sample application
+
+    oc new-app --template=aspnet-s2i -p GIT_URI=https://github.com/openshift-s2i/s2i-aspnet,GIT_CONTEXT_DIR=source
+
+The template can also be instantiated using the OpenShift web console. Login to the console and navigate to the `dot-net-template` project. Click the *Add to Project* button. Search and select the `aspnet-s2i`.
+
+Set the following parameters:
+
+* Git URI - https://github.com/openshift-s2i/s2i-aspnet
+* Git Context Directory - source
+
+Click *Create* to start a build and deploy the sample application.
+
+Once the build has completed and the resulting container started, the application will be available at http://aspnet-app-dot-net-template.&lt;default_subdomain&gt;
+
 
 # Standalone
 
