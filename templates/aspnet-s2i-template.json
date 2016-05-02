@@ -175,6 +175,22 @@
                                         "protocol": "TCP"
                                     }
                                 ],
+                                "readinessProbe": {
+                                  "timeoutSeconds": 3,
+                                  "initialDelaySeconds": 3,
+                                  "httpGet": {
+                                    "path": "/Home/About",
+                                    "port": 5000
+                                  }
+                                },
+                                "livenessProbe": {
+                                  "timeoutSeconds": 3,
+                                  "initialDelaySeconds": 30,
+                                  "httpGet": {
+                                    "path": "/",
+                                    "port": 5000
+                                    }
+                                },
                                 "resources": {},
                                 "terminationMessagePath": "/dev/termination-log",
                                 "imagePullPolicy": "Always"

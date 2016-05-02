@@ -140,3 +140,7 @@ Once the container is running, it should be accessible using:
 ```
 $ curl 127.0.0.1:5000
 ```
+
+# Liveness and Readiness Application Health
+
+We've configured in the template the liveness and readiness probe of which you can read more at https://docs.openshift.com/enterprise/3.0/dev_guide/application_health.html.  It checks if the container is healthy by doing a HTTP call to /.   It checks if the application is ready by doing a HTTP call to /Home/About.  If you'd like to see how the probe is working, just `oc log -f <pod>`.
