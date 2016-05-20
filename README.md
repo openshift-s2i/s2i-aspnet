@@ -1,5 +1,6 @@
 # s2i-aspnet
-![Travis CI](https://travis-ci.org/openshift-s2i/s2i-aspnet.svg?branch=master)
+
+[![Travis CI Build Status](https://travis-ci.org/openshift-s2i/s2i-aspnet.svg?branch=master)](https://travis-ci.org/openshift-s2i/s2i-aspnet)
 
 Red Hat OpenShift Source-to-Image template for ASP.NET applications
 
