@@ -5,9 +5,4 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-# We will turn off daemonizing for the nginx process so that the container
-# doesn't exit after the process runs.
-# We will also specify the default port on which it should listen.
-#exec /usr/sbin/nginx -g "daemon off;"
-#ENTRYPOINT ["dnx", "-p", "source/project.json", "Microsoft.AspNet.Server.Kestrel", "--server.urls", "http://0.0.0.0:5000"]
-dnx -p /tmp/src/project.json Microsoft.AspNet.Server.Kestrel --server.urls http://0.0.0.0:5000
+dotnet run -p ${HOME}/project.json --server.urls=http://*:5000
