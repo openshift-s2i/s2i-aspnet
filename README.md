@@ -1,4 +1,4 @@
-# s2i-dotnet
+# s2i-aspnet
 
 [![Travis CI Build Status](https://travis-ci.org/openshift-s2i/s2i-aspnet.svg?branch=master)](https://travis-ci.org/openshift-s2i/s2i-aspnet)
 
@@ -14,7 +14,7 @@ the official OpenShift Documentation (https://docs.openshift.com/enterprise/3.1/
 
 # Building the Builder Image
 
-This S2I builder can be built within OpenShift or locally using docker. The following will describe the steps necessary to produce a new builder image called *s2i-dotnet* that can be used to produce S2I builds of .NET Core applications. 
+This S2I builder can be built within OpenShift or locally using docker. The following will describe the steps necessary to produce a new builder image called *s2i-aspnet* that can be used to produce S2I builds of .NET Core applications. 
 
 ## OpenShift
 
@@ -25,7 +25,7 @@ After logging into an OpenShift environment and creating a new project, start a 
 Or, to push the contents of the repository that has been cloned to the local machine, run the following command:
 
 ```
-oc new-build microsoft/dotnet --name=s2i-aspnet --binary=true
+oc new-build openshift/base-centos7 --name=s2i-aspnet --binary=true
 oc start-build s2i-aspnet --from-dir=.
 ```
 	

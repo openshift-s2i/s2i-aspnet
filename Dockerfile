@@ -1,9 +1,10 @@
-FROM microsoft/dotnet
+FROM openshift/base-centos7
 
 MAINTAINER Albert Wong <albert@redhat.com>
 
 ENV \ 
-    ASPNETCORE_VERSION=1.0 \
+    ASPNETCORE_VERSION=1.0.0-preview1 \
+    INSTALLER_ASPNETCORE_VERSION=1.0.0-preview1-002702 \
     HOME=/opt/app-root/src
 
 # Set the labels that are used for Openshift to describe the builder image.
@@ -14,12 +15,17 @@ LABEL io.k8s.description="ASP.NET Core 1.0" \
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
     io.openshift.s2i.destination="/opt/app-root"
 
-RUN printf "deb http://ftp.us.debian.org/debian jessie main\n" >> /etc/apt/sources.list && \
-    apt-get -qq update && apt-get install -qqy sqlite3 libsqlite3-dev && rm -rf /var/lib/apt/lists/* && \
+RUN yum install -y libunwind libicu && \
+    yum clean all -y && \
     mkdir -p ${HOME} && \
     chown -R 1001:0 ${HOME}/ && \
-    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default && \
-    chown -R 1001:0 /opt/app-root
+    chown -R 1001:0 /opt/app-root && \
+    curl -L -o /tmp/dotnet-install.sh https://raw.githubusercontent.com/dotnet/cli/v$ASPNETCORE_VERSION/scripts/obtain/dotnet-install.sh && \
+    chmod +x /tmp/dotnet-install.sh && \
+    /tmp/dotnet-install.sh --version $INSTALLER_ASPNETCORE_VERSION --install-dir /dotnet && \
+    ln -s /dotnet/dotnet /usr/local/bin && \
+    rm -rf /tmp/dotnet-install.sh
+
 
 EXPOSE 5000/tcp
 
