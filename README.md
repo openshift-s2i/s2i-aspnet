@@ -48,7 +48,7 @@ The resulting image can be used by the S2I to combine the application source int
 
 ASP.NET Core versions currently supported are:
 
-* ASP.NET Core 1.0.0 RC2+
+* ASP.NET Core 1.0.0
 
 We are using the official docker image from Microsoft as the base (https://github.com/dotnet/dotnet-docker)
 

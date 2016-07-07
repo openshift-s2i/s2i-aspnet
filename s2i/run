@@ -5,4 +5,4 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-dotnet run -p ${HOME}/project.json --server.urls=http://*:5000
+dotnet run -p ${HOME}/project.json
