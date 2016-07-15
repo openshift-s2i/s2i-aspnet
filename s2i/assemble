@@ -27,3 +27,8 @@ cd ${HOME}
 
 dotnet restore
 dotnet build
+
+# Fix source directory permissions
+fix-permissions ./
+# set permissions for any installed artifacts
+fix-permissions /opt/app-root
