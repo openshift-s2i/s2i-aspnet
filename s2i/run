@@ -5,4 +5,4 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-dotnet run -p ${HOME}/project.json
+exec dotnet run -p ${HOME}/project.json
